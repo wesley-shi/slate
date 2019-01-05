@@ -225,19 +225,22 @@
             <a href="#taxonomy-api" class="toc-h1 toc-link" data-title="Taxonomy API">Taxonomy API</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#get-taxonomy-list" class="toc-h2 toc-link" data-title="Get taxonomy list">Get taxonomy list</a>
+                    <a href="#post-yaml" class="toc-h2 toc-link" data-title="POST yaml">POST yaml</a>
                   </li>
                   <li>
-                    <a href="#get-taxonomy-tree" class="toc-h2 toc-link" data-title="Get taxonomy tree">Get taxonomy tree</a>
+                    <a href="#get-taxonomy-list" class="toc-h2 toc-link" data-title="GET taxonomy list">GET taxonomy list</a>
                   </li>
                   <li>
-                    <a href="#post-labeling-function" class="toc-h2 toc-link" data-title="Post labeling function">Post labeling function</a>
+                    <a href="#get-taxonomy-tree" class="toc-h2 toc-link" data-title="GET taxonomy tree">GET taxonomy tree</a>
+                  </li>
+                  <li>
+                    <a href="#post-labeling-function" class="toc-h2 toc-link" data-title="POST labeling function">POST labeling function</a>
                   </li>
                   <li>
                     <a href="#post-labels" class="toc-h2 toc-link" data-title="Post labels">Post labels</a>
                   </li>
                   <li>
-                    <a href="#get-function" class="toc-h2 toc-link" data-title="Get function">Get function</a>
+                    <a href="#get-function" class="toc-h2 toc-link" data-title="GET function">GET function</a>
                   </li>
               </ul>
           </li>
@@ -268,8 +271,32 @@ curl <span class="s2">"api_endpoint_here"</span>
 <blockquote>
 <p>Make sure to replace <code>API_KEY</code> with your API key.</p>
 </blockquote>
-<h1 id='taxonomy-api'>Taxonomy API</h1><h2 id='get-taxonomy-list'>Get taxonomy list</h2>
-<p>As someone working on labeling functions for taxonomies, I need to know what taxonomies exist</p>
+<h1 id='taxonomy-api'>Taxonomy API</h1><h2 id='post-yaml'>POST yaml</h2>
+<blockquote>
+<p>The above command should return the JSON response in GET taxonomy tree for the posted YAML tree</p>
+</blockquote>
+
+<p>As someone working on labeling functions for taxonomies, I need to know upload YAML files so that I can generate a tree of sub-taxonomies. The posted YAML should automatically be parsed into node objects into our relational database. Every node (when parsed) is assigned a unique key based on the tree name.</p>
+<h3 id='http-request'>HTTP Request</h3>
+<p><code>GET http://example.com/post/yaml</code></p>
+<h3 id='url-parameters'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>yaml</td>
+<td>The YAML file to be posted</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name of the tree, if an existing tree already exists, the nodes will be overwritten and labeling function will be reassigned</td>
+</tr>
+</tbody></table>
+<h2 id='get-taxonomy-list'>GET taxonomy list</h2>
+<p>As someone working on labeling functions for taxonomies, I need to know what taxonomies exist. The names of the lists are created by the user through the POST yaml API.</p>
 
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
@@ -280,9 +307,9 @@ curl <span class="s2">"api_endpoint_here"</span>
 </span><span class="p">{</span><span class="w">
     </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"att_visitor-actions"</span><span class="p">,</span><span class="w">
 </span><span class="p">}]</span><span class="w">
-</span></code></pre><h3 id='http-request'>HTTP Request</h3>
+</span></code></pre><h3 id='http-request-2'>HTTP Request</h3>
 <p><code>GET http://example.com/get/taxonomy/list</code></p>
-<h2 id='get-taxonomy-tree'>Get taxonomy tree</h2>
+<h2 id='get-taxonomy-tree'>GET taxonomy tree</h2>
 <p>As someone writing labeling functions, I need to see which taxonomies / sub-taxonomies are missing labeling functions so that I can know which types of text I need to work on. I want to be able to provide a taxonomy tree name to retrieve the full structure (this would make it easier to traverse the graph). </p>
 
 <p>In the future if graphs are ever very large, a node&#39;s key could be provided to retrieve only a sub-section of a taxonomy, the JSON return values could also be node&#39;s key (requiring a get/node/<key> operation to fetch details). For now, the JSON response should be a list of nodes that can be parsed into a tree structure with all complete values in the response. I imagine in the future filters and other options could be provided to only fetch the data we need.</p>
@@ -333,9 +360,9 @@ curl <span class="s2">"api_endpoint_here"</span>
     </span><span class="p">],</span><span class="w">
     </span><span class="s2">"parent_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><h3 id='http-request-2'>HTTP Request</h3>
+</span></code></pre><h3 id='http-request-3'>HTTP Request</h3>
 <p><code>GET http://example.com/get/taxonomy/&lt;name&gt;</code></p>
-<h3 id='url-parameters'>URL Parameters</h3>
+<h3 id='url-parameters-2'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -347,7 +374,7 @@ curl <span class="s2">"api_endpoint_here"</span>
 <td>The name of the taxonomy to retrieve</td>
 </tr>
 </tbody></table>
-<h3 id='node-object'>Node Object</h3>
+<h3 id='node-object-json'>Node Object JSON</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -391,11 +418,11 @@ curl <span class="s2">"api_endpoint_here"</span>
 <td>An object representing metadata (optional)</td>
 </tr>
 </tbody></table>
-<h2 id='post-labeling-function'>Post labeling function</h2>
+<h2 id='post-labeling-function'>POST labeling function</h2>
 <p>As someone writing labeling functions, I need to add my labeling function to a database of functions so that a system can score the functions and others working with me can have access. I need to know that the labeling function is correctly scored and categorized under the most relevant sub-taxonomy. We can also have a list of utility functions with their APIs that are available in the cloud.</p>
 
 <p>For the response, I think a 204 could just mean success but if there is a scored result, a 200 with the results would be nice.</p>
-<h3 id='http-request-3'>HTTP Request</h3>
+<h3 id='http-request-4'>HTTP Request</h3>
 <p><code>POST http://example.com/post/functions</code></p>
 <h3 id='function-object'>Function Object</h3>
 <table><thead>
@@ -425,7 +452,7 @@ curl <span class="s2">"api_endpoint_here"</span>
 <td>The key of the subtaxonomy, this function is to be grouped under forcefully (optional)</td>
 </tr>
 </tbody></table>
-<h3 id='url-parameters-2'>URL Parameters</h3>
+<h3 id='url-parameters-3'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -449,9 +476,9 @@ curl <span class="s2">"api_endpoint_here"</span>
 <p>As someone managing how labeling functions are scored and categorized, I need to add pre-labeled data with labels that labeling functions will get scored against.</p>
 
 <p>For the response, I think a 204 could just mean success but if there is a scored result, a 200 with the results would be nice.</p>
-<h3 id='http-request-4'>HTTP Request</h3>
+<h3 id='http-request-5'>HTTP Request</h3>
 <p><code>POST http://example.com/post/labels</code></p>
-<h3 id='label-object'>Label Object</h3>
+<h3 id='label-object-json'>Label Object JSON</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -467,7 +494,7 @@ curl <span class="s2">"api_endpoint_here"</span>
 <td>The key of the subtaxonomy this message is to be grouped under</td>
 </tr>
 </tbody></table>
-<h3 id='url-parameters-3'>URL Parameters</h3>
+<h3 id='url-parameters-4'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -483,7 +510,7 @@ curl <span class="s2">"api_endpoint_here"</span>
 <td>A boolean flag to indicate whether snorkel should re-run labeling functions for subtaxonomies with new labels</td>
 </tr>
 </tbody></table>
-<h2 id='get-function'>Get function</h2>
+<h2 id='get-function'>GET function</h2>
 <p>As someone managing how labeling functions are scored and categorized, I need to know how specific labeling functions performed against the correct sanitized inputs/outputs provided.</p>
 
 <blockquote>
@@ -502,9 +529,9 @@ curl <span class="s2">"api_endpoint_here"</span>
         </span><span class="s2">"author"</span><span class="p">:</span><span class="w"> </span><span class="err">&lt;user</span><span class="w"> </span><span class="err">id&gt;</span><span class="w">
         </span><span class="s2">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">An</span><span class="w"> </span><span class="err">object</span><span class="w"> </span><span class="err">with</span><span class="w"> </span><span class="err">additional</span><span class="w"> </span><span class="err">relevant</span><span class="w"> </span><span class="err">data</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span><span class="p">}],</span><span class="w">
-</span></code></pre><h3 id='http-request-5'>HTTP Request</h3>
+</span></code></pre><h3 id='http-request-6'>HTTP Request</h3>
 <p><code>GET http://example.com/get/function</code></p>
-<h3 id='url-parameters-4'>URL Parameters</h3>
+<h3 id='url-parameters-5'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
