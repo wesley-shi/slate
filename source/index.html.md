@@ -34,9 +34,26 @@ curl "api_endpoint_here"
 
 # Taxonomy API
 
-## Get taxonomy list
+## POST yaml
 
-As someone working on labeling functions for taxonomies, I need to know what taxonomies exist
+> The above command should return the JSON response in GET taxonomy tree for the posted YAML tree
+
+As someone working on labeling functions for taxonomies, I need to know upload YAML files so that I can generate a tree of sub-taxonomies. The posted YAML should automatically be parsed into node objects into our relational database. Every node (when parsed) is assigned a unique key based on the tree name.
+
+### HTTP Request
+
+`GET http://example.com/post/yaml`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+yaml | The YAML file to be posted
+name | The name of the tree, if an existing tree already exists, the nodes will be overwritten and labeling function will be reassigned
+
+## GET taxonomy list
+
+As someone working on labeling functions for taxonomies, I need to know what taxonomies exist. The names of the lists are created by the user through the POST yaml API.
 
 > The above command returns JSON structured like this:
 
@@ -53,7 +70,7 @@ As someone working on labeling functions for taxonomies, I need to know what tax
 
 `GET http://example.com/get/taxonomy/list`
 
-## Get taxonomy tree
+## GET taxonomy tree
 
 As someone writing labeling functions, I need to see which taxonomies / sub-taxonomies are missing labeling functions so that I can know which types of text I need to work on. I want to be able to provide a taxonomy tree name to retrieve the full structure (this would make it easier to traverse the graph). 
 
@@ -117,7 +134,7 @@ Parameter | Description
 --------- | -----------
 name | The name of the taxonomy to retrieve
 
-### Node Object
+### Node Object JSON
 
 Parameter | Description
 --------- | -----------
@@ -131,7 +148,7 @@ children | An array of nodes belonging to this parent node (optional)
 example | An array of strings that to help a user better understand the description or label (optional)
 data | An object representing metadata (optional)
 
-## Post labeling function
+## POST labeling function
 
 As someone writing labeling functions, I need to add my labeling function to a database of functions so that a system can score the functions and others working with me can have access. I need to know that the labeling function is correctly scored and categorized under the most relevant sub-taxonomy. We can also have a list of utility functions with their APIs that are available in the cloud.
 
@@ -169,7 +186,7 @@ For the response, I think a 204 could just mean success but if there is a scored
 
 `POST http://example.com/post/labels`
 
-### Label Object
+### Label Object JSON
 
 Parameter | Description
 --------- | -----------
@@ -183,7 +200,7 @@ Parameter | Description
 labels | An array of label objects to posted 
 run | A boolean flag to indicate whether snorkel should re-run labeling functions for subtaxonomies with new labels
 
-## Get function
+## GET function
 
 As someone managing how labeling functions are scored and categorized, I need to know how specific labeling functions performed against the correct sanitized inputs/outputs provided.
 
