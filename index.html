@@ -276,9 +276,9 @@ curl <span class="s2">"api_endpoint_here"</span>
 <p>The above command should return the JSON response in GET taxonomy tree for the posted YAML tree</p>
 </blockquote>
 
-<p>As someone working on labeling functions for taxonomies, I need to know upload YAML files so that I can generate a tree of sub-taxonomies. The posted YAML should automatically be parsed into node objects into our relational database. Every node (when parsed) is assigned a unique key based on the tree name.</p>
+<p>Uploads a YAML file into nodes to then be queried. See taxonomy YAMLs for samples.</p>
 <h3 id='http-request'>HTTP Request</h3>
-<p><code>GET http://example.com/post/yaml</code></p>
+<p><code>GET https://agile-binder-228011.appspot.com/post/yaml</code></p>
 <h3 id='url-parameters'>URL Parameters</h3>
 <table><thead>
 <tr>
@@ -308,9 +308,9 @@ curl <span class="s2">"api_endpoint_here"</span>
     </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"att_visitor-actions"</span><span class="p">,</span><span class="w">
 </span><span class="p">}]</span><span class="w">
 </span></code></pre><h3 id='http-request-2'>HTTP Request</h3>
-<p><code>GET http://example.com/get/taxonomy/list</code></p>
+<p><code>GET https://agile-binder-228011.appspot.com/get/taxonomy/list</code></p>
 <h2 id='get-taxonomy-tree'>GET taxonomy tree</h2>
-<p>As someone writing labeling functions, I need to see which taxonomies / sub-taxonomies are missing labeling functions so that I can know which types of text I need to work on. I want to be able to provide a taxonomy tree name to retrieve the full structure (this would make it easier to traverse the graph). </p>
+<p>Retrieves a taxonomy tree based on the name of the root.</p>
 
 <p>In the future if graphs are ever very large, a node&#39;s key could be provided to retrieve only a sub-section of a taxonomy, the JSON return values could also be node&#39;s key (requiring a get/node/<key> operation to fetch details). For now, the JSON response should be a list of nodes that can be parsed into a tree structure with all complete values in the response. I imagine in the future filters and other options could be provided to only fetch the data we need.</p>
 
@@ -323,13 +323,13 @@ curl <span class="s2">"api_endpoint_here"</span>
     </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"att_agent-actions"</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">An</span><span class="w"> </span><span class="err">id/key</span><span class="w"> </span><span class="err">uniquely</span><span class="w"> </span><span class="err">identifying</span><span class="w"> </span><span class="err">each</span><span class="w"> </span><span class="err">node</span><span class="w">
     </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AT&amp;T Agent Actions"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"example"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-    </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"root_node"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="err">root</span><span class="w"> </span><span class="err">node</span><span class="w">
     </span><span class="s2">"children"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
         </span><span class="s2">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"open"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"att_agent-actions.open"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"agent enters chat."</span><span class="p">,</span><span class="w">
         </span><span class="s2">"example"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"Agent yc4055 enters chat as Lauren"</span><span class="p">],</span><span class="w">
-        </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"leaf_node"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
         </span><span class="s2">"parent_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"att_agent-actions"</span><span class="w">
         </span><span class="s2">"children"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
             </span><span class="s2">"parent_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"att_agent-actions.open"</span><span class="p">,</span><span class="w">
@@ -351,7 +351,7 @@ curl <span class="s2">"api_endpoint_here"</span>
         </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"att_agent-actions.greeting"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"agent greets visitor."</span><span class="p">,</span><span class="w">
         </span><span class="s2">"example"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-        </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"parent_node"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
         </span><span class="s2">"parent_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"att_agent-actions"</span><span class="w">
         </span><span class="s2">"children"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
             </span><span class="err">...</span><span class="w">
@@ -361,7 +361,7 @@ curl <span class="s2">"api_endpoint_here"</span>
     </span><span class="s2">"parent_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><h3 id='http-request-3'>HTTP Request</h3>
-<p><code>GET http://example.com/get/taxonomy/&lt;name&gt;</code></p>
+<p><code>GET https://agile-binder-228011.appspot.com/get/taxonomy/&lt;name&gt;</code></p>
 <h3 id='url-parameters-2'>URL Parameters</h3>
 <table><thead>
 <tr>
@@ -382,6 +382,18 @@ curl <span class="s2">"api_endpoint_here"</span>
 </tr>
 </thead><tbody>
 <tr>
+<td>create_date</td>
+<td>Date created</td>
+</tr>
+<tr>
+<td>update_date</td>
+<td>Date last updated</td>
+</tr>
+<tr>
+<td>owner</td>
+<td>Username of the user to upload this node object</td>
+</tr>
+<tr>
 <td>label</td>
 <td>The label assigned to a node</td>
 </tr>
@@ -390,8 +402,8 @@ curl <span class="s2">"api_endpoint_here"</span>
 <td>The key assigned to a node. This should be unique and currently a key is the concatonation of the labels down from the root.</td>
 </tr>
 <tr>
-<td>type</td>
-<td>root_node, parent_node, leaf_node, or labeling_function</td>
+<td>node_type</td>
+<td>0=root_node, 1=parent_node, 2=leaf_node, 3=labeling_function</td>
 </tr>
 <tr>
 <td>description</td>
@@ -423,7 +435,7 @@ curl <span class="s2">"api_endpoint_here"</span>
 
 <p>For the response, I think a 204 could just mean success but if there is a scored result, a 200 with the results would be nice.</p>
 <h3 id='http-request-4'>HTTP Request</h3>
-<p><code>POST http://example.com/post/functions</code></p>
+<p><code>POST https://agile-binder-228011.appspot.com/post/functions</code></p>
 <h3 id='function-object'>Function Object</h3>
 <table><thead>
 <tr>
@@ -477,7 +489,7 @@ curl <span class="s2">"api_endpoint_here"</span>
 
 <p>For the response, I think a 204 could just mean success but if there is a scored result, a 200 with the results would be nice.</p>
 <h3 id='http-request-5'>HTTP Request</h3>
-<p><code>POST http://example.com/post/labels</code></p>
+<p><code>POST https://agile-binder-228011.appspot.com/post/labels</code></p>
 <h3 id='label-object-json'>Label Object JSON</h3>
 <table><thead>
 <tr>
@@ -530,7 +542,7 @@ curl <span class="s2">"api_endpoint_here"</span>
         </span><span class="s2">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">An</span><span class="w"> </span><span class="err">object</span><span class="w"> </span><span class="err">with</span><span class="w"> </span><span class="err">additional</span><span class="w"> </span><span class="err">relevant</span><span class="w"> </span><span class="err">data</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span><span class="p">}],</span><span class="w">
 </span></code></pre><h3 id='http-request-6'>HTTP Request</h3>
-<p><code>GET http://example.com/get/function</code></p>
+<p><code>GET https://agile-binder-228011.appspot.com/get/function</code></p>
 <h3 id='url-parameters-5'>URL Parameters</h3>
 <table><thead>
 <tr>
