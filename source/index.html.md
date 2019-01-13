@@ -38,11 +38,11 @@ curl "api_endpoint_here"
 
 > The above command should return the JSON response in GET taxonomy tree for the posted YAML tree
 
-As someone working on labeling functions for taxonomies, I need to know upload YAML files so that I can generate a tree of sub-taxonomies. The posted YAML should automatically be parsed into node objects into our relational database. Every node (when parsed) is assigned a unique key based on the tree name.
+Uploads a YAML file into nodes to then be queried. See taxonomy YAMLs for samples.
 
 ### HTTP Request
 
-`GET http://example.com/post/yaml`
+`GET https://agile-binder-228011.appspot.com/post/yaml`
 
 ### URL Parameters
 
@@ -68,11 +68,11 @@ As someone working on labeling functions for taxonomies, I need to know what tax
 
 ### HTTP Request
 
-`GET http://example.com/get/taxonomy/list`
+`GET https://agile-binder-228011.appspot.com/get/taxonomy/list`
 
 ## GET taxonomy tree
 
-As someone writing labeling functions, I need to see which taxonomies / sub-taxonomies are missing labeling functions so that I can know which types of text I need to work on. I want to be able to provide a taxonomy tree name to retrieve the full structure (this would make it easier to traverse the graph). 
+Retrieves a taxonomy tree based on the name of the root.
 
 In the future if graphs are ever very large, a node's key could be provided to retrieve only a sub-section of a taxonomy, the JSON return values could also be node's key (requiring a get/node/<key> operation to fetch details). For now, the JSON response should be a list of nodes that can be parsed into a tree structure with all complete values in the response. I imagine in the future filters and other options could be provided to only fetch the data we need.
 
@@ -85,13 +85,13 @@ In the future if graphs are ever very large, a node's key could be provided to r
     "key": "att_agent-actions", // An id/key uniquely identifying each node
     "description": "AT&T Agent Actions",
     "example": [],
-    "type": "root_node",
+    "type": 0, // 0 = root node
     "children": [{
         "label": "open",
         "key": "att_agent-actions.open",
         "description": "agent enters chat.",
         "example": ["Agent yc4055 enters chat as Lauren"],
-        "type": "leaf_node",
+        "type": 2,
         "parent_key": "att_agent-actions"
         "children": [{
             "parent_key": "att_agent-actions.open",
@@ -113,7 +113,7 @@ In the future if graphs are ever very large, a node's key could be provided to r
         "key": "att_agent-actions.greeting",
         "description": "agent greets visitor.",
         "example": [],
-        "type": "parent_node",
+        "type": 1,
         "parent_key": "att_agent-actions"
         "children": [{
             ...
@@ -126,7 +126,7 @@ In the future if graphs are ever very large, a node's key could be provided to r
 
 ### HTTP Request
 
-`GET http://example.com/get/taxonomy/<name>`
+`GET https://agile-binder-228011.appspot.com/get/taxonomy/<name>`
 
 ### URL Parameters
 
@@ -138,9 +138,12 @@ name | The name of the taxonomy to retrieve
 
 Parameter | Description
 --------- | -----------
+create_date | Date created
+update_date | Date last updated
+owner | Username of the user to upload this node object
 label | The label assigned to a node
 key | The key assigned to a node. This should be unique and currently a key is the concatonation of the labels down from the root.
-type | root_node, parent_node, leaf_node, or labeling_function
+node_type | 0=root_node, 1=parent_node, 2=leaf_node, 3=labeling_function
 description | A description of this node
 parent_key | The parent's key. While the node key contains the parent by concatonation, this will be needed should our key format be altered
 function | A string representing a function. Only present for labeling_function nodes
@@ -156,7 +159,7 @@ For the response, I think a 204 could just mean success but if there is a scored
 
 ### HTTP Request
 
-`POST http://example.com/post/functions`
+`POST https://agile-binder-228011.appspot.com/post/functions`
 
 ### Function Object
 
@@ -184,7 +187,7 @@ For the response, I think a 204 could just mean success but if there is a scored
 
 ### HTTP Request
 
-`POST http://example.com/post/labels`
+`POST https://agile-binder-228011.appspot.com/post/labels`
 
 ### Label Object JSON
 
@@ -224,7 +227,7 @@ As someone managing how labeling functions are scored and categorized, I need to
 
 ### HTTP Request
 
-`GET http://example.com/get/function`
+`GET https://agile-binder-228011.appspot.com/get/function`
 
 ### URL Parameters
 
