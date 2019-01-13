@@ -126,13 +126,13 @@ In the future if graphs are ever very large, a node's key could be provided to r
 
 ### HTTP Request
 
-`GET https://agile-binder-228011.appspot.com/get/taxonomy/<name>`
+`GET https://agile-binder-228011.appspot.com/get/taxonomy/key/<key>`
 
 ### URL Parameters
 
 Parameter | Description
 --------- | -----------
-name | The name of the taxonomy to retrieve
+key | The key of the taxonomy node to retrieve along with its descendants
 
 ### Node Object JSON
 
