@@ -170,13 +170,13 @@ taxonomy | The key of the taxonomy, this function is to be grouped under
 name | A name to identify the labeling function
 description | A description for the labeling function
 subtaxonomy | The key of the subtaxonomy, this function is to be grouped under forcefully (optional)
+id | The id of a functional that this function is meant to replace (optional)
 
 ### URL Parameters
 
 Parameter | Description
 --------- | -----------
-functions | An array of function objects to be automatically run and labeled 
-key | The key/id of a functional that this function is meant to replace (optional)
+functions | An array of function objects to be automatically run and labeled
 run | A boolean flag to indicate whether snorkel should re-run data for taxonomy with these new functions
 
 ## Post labels
