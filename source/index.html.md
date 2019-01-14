@@ -169,7 +169,7 @@ function | The function as a string. Assume access to a variable `text` and retu
 taxonomy | The key of the taxonomy, this function is to be grouped under
 name | A name to identify the labeling function
 description | A description for the labeling function
-id | The id of a functional that this function is meant to replace (optional)
+key | A unique key for this function. If a new function uses this key, it will replace the previous function
 
 ### URL Parameters
 
@@ -193,7 +193,8 @@ For the response, I think a 204 could just mean success but if there is a scored
 Parameter | Description
 --------- | -----------
 text | The message text
-subtaxonomy | The key of the subtaxonomy this message is to be grouped under
+taxonomy | The taxonomy for this label
+label | The correct subtaxonomy label for this text (optional)
 
 ### URL Parameters
 
