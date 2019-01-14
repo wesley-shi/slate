@@ -431,6 +431,26 @@ curl <span class="s2">"api_endpoint_here"</span>
 </tr>
 </tbody></table>
 <h2 id='post-labeling-function'>POST labeling function</h2>
+<blockquote>
+<p>The below is an example of a function post:</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -X POST <span class="se">\</span>
+  http://localhost:8000/api/post/functions/ <span class="se">\</span>
+  -H <span class="s1">'Authorization: Token b77ca868221a2e1d3b96c896ca4b8837088b9ea50c1b949214424b05e5f9fe08'</span> <span class="se">\</span>
+  -H <span class="s1">'Cache-Control: no-cache'</span> <span class="se">\</span>
+  -H <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  -H <span class="s1">'Postman-Token: ae253a65-3245-448d-afa5-68d125cfc0db'</span> <span class="se">\</span>
+  -d <span class="s1">'{
+    "functions": [{
+        "function": "subtaxonomy['</span><span class="se">\'</span><span class="s1">'open.greeting.ask_name'</span><span class="se">\'</span><span class="s1">'] = 1 if '</span><span class="se">\'</span><span class="s1">'who'</span><span class="se">\'</span><span class="s1">' in text and '</span><span class="se">\'</span><span class="s1">'chatting'</span><span class="se">\'</span><span class="s1">' in text and text.find('</span><span class="se">\'</span><span class="s1">'chatting'</span><span class="se">\'</span><span class="s1">') &gt; text.find('</span><span class="se">\'</span><span class="s1">'who'</span><span class="se">\'</span><span class="s1">') else 0",
+        "name": "open.greeting.ask_name__1",
+        "key": "agent_actions_open.greeting.ask_name_1",
+        "description": "Checks for words '</span><span class="se">\'</span><span class="s1">'who'</span><span class="se">\'</span><span class="s1">' and '</span><span class="se">\'</span><span class="s1">'chatting'</span><span class="se">\'</span><span class="s1">' and that they are in order",
+        "taxonomy": "agent-actions"
+    }],
+    "run": true
+}'</span>
+</code></pre>
 <p>Upload a labeling function. The labeling function will be run with <code>exec</code>. The text of a particular data message will be available in the variable <code>text</code> and the output of whether or not the <code>text</code> fits a particular subtaxonomy should be assigned to the <code>subtaxonomy</code> object like <code>subtaxonomy[&#39;agent-actions.open&#39;] = 1</code>.</p>
 <h3 id='http-request-4'>HTTP Request</h3>
 <p><code>POST https://agile-binder-228011.appspot.com/post/functions</code></p>
