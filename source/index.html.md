@@ -174,6 +174,22 @@ curl -X POST \
     }'
 ```
 
+> If the function is run, it should return a data object for each function:
+
+```json
+{
+    "agent-actions.open.greeting.ask_name__1": {
+        "score_date": 1547477906793,
+        "true_negatives": 802,
+        "true_positives": 30,
+        "false_positives": 3,
+        "false_negatives": 12,
+        // Best scored is based on subtaxonomy with most true positives
+        "best_scored_subtaxonomy": "agent_actions_open.greeting.ask_name",
+    }
+}
+```
+
 Upload a labeling function. The labeling function will be run with `exec`. The text of a particular data message will be available in the variable `text` and the output of whether or not the `text` fits a particular subtaxonomy should be assigned to the `subtaxonomy` object like `subtaxonomy['agent-actions.open'] = 1`.
 
 ### HTTP Request
@@ -219,35 +235,3 @@ Parameter | Description
 --------- | -----------
 labels | An array of label objects to posted 
 run | A boolean flag to indicate whether snorkel should re-run labeling functions for subtaxonomies with new labels
-
-## GET function
-
-As someone managing how labeling functions are scored and categorized, I need to know how specific labeling functions performed against the correct sanitized inputs/outputs provided.
-
-> The above command returns JSON structured like this:
-
-```json
-[{
-    "parent_id": "att_agent-actions.open",
-    "key": "att_agent-actions.open.labeling_function_name_assigned_by_user",
-    "description": "Labeling function description assigned by user",
-    "function": "function as a string in readable format, can be editable",
-    "type": "labeling_function",
-    "data": { // An object representing metadata or test results from testing
-        "last_run_date": <timestamp in ms>,
-        "date_created": <timestamp in ms>,
-        "subtaxonomy_run_results": { // An object representing text and subtaxonomy results },
-        "author": <user id>
-        "metadata": { // An object with additional relevant data }
-}],
-```
-
-### HTTP Request
-
-`GET https://agile-binder-228011.appspot.com/get/function`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-keys | An array of keys of labeling functions to get 
