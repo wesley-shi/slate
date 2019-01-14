@@ -213,7 +213,7 @@ Parameter | Description
 functions | An array of function objects to be automatically run and labeled
 run | A boolean flag to indicate whether snorkel should re-run data for taxonomy with these new functions
 
-## Post labels
+## POST labels
 
 Upload data for a taxonomy. Should the text be labeled, add the property `label` to each label object.
 
