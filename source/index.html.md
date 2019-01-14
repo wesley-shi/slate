@@ -53,7 +53,7 @@ name | The name of the tree, if an existing tree already exists, the nodes will 
 
 ## GET taxonomy list
 
-As someone working on labeling functions for taxonomies, I need to know what taxonomies exist. The names of the lists are created by the user through the POST yaml API.
+Gets the list of taxonomys available
 
 > The above command returns JSON structured like this:
 
@@ -72,9 +72,9 @@ As someone working on labeling functions for taxonomies, I need to know what tax
 
 ## GET taxonomy tree
 
-Retrieves a taxonomy tree based on the name of the root.
+Retrieves a taxonomy tree based on a node key (ex. `att_agent-actions` or `att_agent-actions.open`)
 
-In the future if graphs are ever very large, a node's key could be provided to retrieve only a sub-section of a taxonomy, the JSON return values could also be node's key (requiring a get/node/<key> operation to fetch details). For now, the JSON response should be a list of nodes that can be parsed into a tree structure with all complete values in the response. I imagine in the future filters and other options could be provided to only fetch the data we need.
+In the future, this API can support filters and other options.
 
 > The above command returns JSON structured like this:
 
@@ -153,9 +153,7 @@ data | An object representing metadata (optional)
 
 ## POST labeling function
 
-As someone writing labeling functions, I need to add my labeling function to a database of functions so that a system can score the functions and others working with me can have access. I need to know that the labeling function is correctly scored and categorized under the most relevant sub-taxonomy. We can also have a list of utility functions with their APIs that are available in the cloud.
-
-For the response, I think a 204 could just mean success but if there is a scored result, a 200 with the results would be nice.
+Upload a labeling function. The labeling function will be run with `exec`. The text of a particular data message will be available in the variable `text` and the output of whether or not the `text` fits a particular subtaxonomy should be assigned to the `subtaxonomy` object like `subtaxonomy['agent-actions.open'] = 1`.
 
 ### HTTP Request
 
@@ -165,7 +163,7 @@ For the response, I think a 204 could just mean success but if there is a scored
 
 Parameter | Description
 --------- | -----------
-function | The function as a string. Assume access to a variable `text` and return a JSON object of subtaxonomy to `-1|0|1`
+function | The function as a string. Assume access to a variable `text` and adding string keys to the object `subtaxonomy` as `-1|0|1`
 taxonomy | The key of the taxonomy, this function is to be grouped under
 name | A name to identify the labeling function
 description | A description for the labeling function
@@ -180,9 +178,7 @@ run | A boolean flag to indicate whether snorkel should re-run data for taxonomy
 
 ## Post labels
 
-As someone managing how labeling functions are scored and categorized, I need to add pre-labeled data with labels that labeling functions will get scored against.
-
-For the response, I think a 204 could just mean success but if there is a scored result, a 200 with the results would be nice.
+Upload data for a taxonomy. Should the text be labeled, add the property `label` to each label object.
 
 ### HTTP Request
 
