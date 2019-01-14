@@ -165,11 +165,10 @@ For the response, I think a 204 could just mean success but if there is a scored
 
 Parameter | Description
 --------- | -----------
-function | The function as a string ex. (text) => { "subtaxonomy": 1 }
+function | The function as a string. Assume access to a variable `text` and return a JSON object of subtaxonomy to `-1|0|1`
 taxonomy | The key of the taxonomy, this function is to be grouped under
 name | A name to identify the labeling function
 description | A description for the labeling function
-subtaxonomy | The key of the subtaxonomy, this function is to be grouped under forcefully (optional)
 id | The id of a functional that this function is meant to replace (optional)
 
 ### URL Parameters
