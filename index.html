@@ -296,7 +296,7 @@ curl <span class="s2">"api_endpoint_here"</span>
 </tr>
 </tbody></table>
 <h2 id='get-taxonomy-list'>GET taxonomy list</h2>
-<p>As someone working on labeling functions for taxonomies, I need to know what taxonomies exist. The names of the lists are created by the user through the POST yaml API.</p>
+<p>Gets the list of taxonomys available</p>
 
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
@@ -310,9 +310,9 @@ curl <span class="s2">"api_endpoint_here"</span>
 </span></code></pre><h3 id='http-request-2'>HTTP Request</h3>
 <p><code>GET https://agile-binder-228011.appspot.com/get/taxonomy/list</code></p>
 <h2 id='get-taxonomy-tree'>GET taxonomy tree</h2>
-<p>Retrieves a taxonomy tree based on the name of the root.</p>
+<p>Retrieves a taxonomy tree based on a node key (ex. <code>att_agent-actions</code> or <code>att_agent-actions.open</code>)</p>
 
-<p>In the future if graphs are ever very large, a node&#39;s key could be provided to retrieve only a sub-section of a taxonomy, the JSON return values could also be node&#39;s key (requiring a get/node/<key> operation to fetch details). For now, the JSON response should be a list of nodes that can be parsed into a tree structure with all complete values in the response. I imagine in the future filters and other options could be provided to only fetch the data we need.</p>
+<p>In the future, this API can support filters and other options.</p>
 
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
@@ -431,9 +431,7 @@ curl <span class="s2">"api_endpoint_here"</span>
 </tr>
 </tbody></table>
 <h2 id='post-labeling-function'>POST labeling function</h2>
-<p>As someone writing labeling functions, I need to add my labeling function to a database of functions so that a system can score the functions and others working with me can have access. I need to know that the labeling function is correctly scored and categorized under the most relevant sub-taxonomy. We can also have a list of utility functions with their APIs that are available in the cloud.</p>
-
-<p>For the response, I think a 204 could just mean success but if there is a scored result, a 200 with the results would be nice.</p>
+<p>Upload a labeling function. The labeling function will be run with <code>exec</code>. The text of a particular data message will be available in the variable <code>text</code> and the output of whether or not the <code>text</code> fits a particular subtaxonomy should be assigned to the <code>subtaxonomy</code> object like <code>subtaxonomy[&#39;agent-actions.open&#39;] = 1</code>.</p>
 <h3 id='http-request-4'>HTTP Request</h3>
 <p><code>POST https://agile-binder-228011.appspot.com/post/functions</code></p>
 <h3 id='function-object'>Function Object</h3>
@@ -445,7 +443,7 @@ curl <span class="s2">"api_endpoint_here"</span>
 </thead><tbody>
 <tr>
 <td>function</td>
-<td>The function as a string. Assume access to a variable <code>text</code> and return a JSON object of subtaxonomy to `-1</td>
+<td>The function as a string. Assume access to a variable <code>text</code> and adding string keys to the object <code>subtaxonomy</code> as `-1</td>
 </tr>
 <tr>
 <td>taxonomy</td>
@@ -481,9 +479,7 @@ curl <span class="s2">"api_endpoint_here"</span>
 </tr>
 </tbody></table>
 <h2 id='post-labels'>Post labels</h2>
-<p>As someone managing how labeling functions are scored and categorized, I need to add pre-labeled data with labels that labeling functions will get scored against.</p>
-
-<p>For the response, I think a 204 could just mean success but if there is a scored result, a 200 with the results would be nice.</p>
+<p>Upload data for a taxonomy. Should the text be labeled, add the property <code>label</code> to each label object.</p>
 <h3 id='http-request-5'>HTTP Request</h3>
 <p><code>POST https://agile-binder-228011.appspot.com/post/labels</code></p>
 <h3 id='label-object-json'>Label Object JSON</h3>
