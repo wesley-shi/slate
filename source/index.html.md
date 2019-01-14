@@ -163,15 +163,15 @@ curl -X POST \
   -H 'Content-Type: application/json' \
   -H 'Postman-Token: ae253a65-3245-448d-afa5-68d125cfc0db' \
   -d '{
-    "functions": [{
-        "function": "subtaxonomy['\''open.greeting.ask_name'\''] = 1 if '\''who'\'' in text and '\''chatting'\'' in text and text.find('\''chatting'\'') > text.find('\''who'\'') else 0",
-        "name": "open.greeting.ask_name__1",
-        "key": "agent_actions_open.greeting.ask_name_1",
-        "description": "Checks for words '\''who'\'' and '\''chatting'\'' and that they are in order",
-        "taxonomy": "agent-actions"
-    }],
-    "run": true
-}'
+        "functions": [{
+            "function": "subtaxonomy['\''open.greeting.ask_name'\''] = 1 if '\''who'\'' in text and '\''chatting'\'' in text and text.find('\''chatting'\'') > text.find('\''who'\'') else 0",
+            "name": "open.greeting.ask_name__1",
+            "key": "agent_actions_open.greeting.ask_name_1",
+            "description": "Checks for words '\''who'\'' and '\''chatting'\'' and that they are in order",
+            "taxonomy": "agent-actions"
+        }],
+        "run": true
+    }'
 ```
 
 Upload a labeling function. The labeling function will be run with `exec`. The text of a particular data message will be available in the variable `text` and the output of whether or not the `text` fits a particular subtaxonomy should be assigned to the `subtaxonomy` object like `subtaxonomy['agent-actions.open'] = 1`.
