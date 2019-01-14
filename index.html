@@ -460,8 +460,8 @@ curl <span class="s2">"api_endpoint_here"</span>
 <td>A description for the labeling function</td>
 </tr>
 <tr>
-<td>id</td>
-<td>The id of a functional that this function is meant to replace (optional)</td>
+<td>key</td>
+<td>A unique key for this function. If a new function uses this key, it will replace the previous function</td>
 </tr>
 </tbody></table>
 <h3 id='url-parameters-3'>URL Parameters</h3>
@@ -498,8 +498,12 @@ curl <span class="s2">"api_endpoint_here"</span>
 <td>The message text</td>
 </tr>
 <tr>
-<td>subtaxonomy</td>
-<td>The key of the subtaxonomy this message is to be grouped under</td>
+<td>taxonomy</td>
+<td>The taxonomy for this label</td>
+</tr>
+<tr>
+<td>label</td>
+<td>The correct subtaxonomy label for this text (optional)</td>
 </tr>
 </tbody></table>
 <h3 id='url-parameters-4'>URL Parameters</h3>
