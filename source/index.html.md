@@ -205,7 +205,7 @@ taxonomy | The key of the taxonomy, this function is to be grouped under
 name | A name to identify the labeling function
 description | A description for the labeling function
 key | A unique key for this function. If a new function uses this key, it will replace the previous function
-nodes | An array of node keys the labeling funtion will be assigned under. All nodes in array should be in the same hierarchy
+node | The lowest level node in a hierarchy this labeling function will resolve
 
 ### URL Parameters
 
