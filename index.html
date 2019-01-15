@@ -273,7 +273,7 @@ curl <span class="s2">"api_endpoint_here"</span>
 <p>The above command should return the JSON response in GET taxonomy tree for the posted YAML tree</p>
 </blockquote>
 
-<p>Uploads a YAML file into nodes to then be queried. See taxonomy YAMLs for samples.</p>
+<p>Uploads a YAML file into nodes to then be queried. See taxonomy YAMLs for samples. Yaml labels should not have periods.</p>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code>GET https://agile-binder-228011.appspot.com/post/yaml</code></p>
 <h3 id='url-parameters'>URL Parameters</h3>
@@ -433,37 +433,37 @@ curl <span class="s2">"api_endpoint_here"</span>
 </blockquote>
 <pre class="highlight shell"><code>curl -X POST <span class="se">\</span>
   http://localhost:8000/api/post/functions/ <span class="se">\</span>
-  -H <span class="s1">'Authorization: Token b77ca868221a2e1d3b96c896ca4b8837088b9ea50c1b949214424b05e5f9fe08'</span> <span class="se">\</span>
-  -H <span class="s1">'Cache-Control: no-cache'</span> <span class="se">\</span>
+  -H <span class="s1">'Authorization: Token cdc57387d401b7f9a97d6dd200142764a6fd5ad249e27e8ae6d8152cd1f61250'</span> <span class="se">\</span>
   -H <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
-  -H <span class="s1">'Postman-Token: ae253a65-3245-448d-afa5-68d125cfc0db'</span> <span class="se">\</span>
+  -H <span class="s1">'Postman-Token: ce7b16cd-0172-4860-8ebb-d04bb79c374e'</span> <span class="se">\</span>
+  -H <span class="s1">'cache-control: no-cache'</span> <span class="se">\</span>
   -d <span class="s1">'{
         "functions": [{
-            "function": "subtaxonomy['</span><span class="se">\'</span><span class="s1">'agent-actions.open.greeting.ask_name'</span><span class="se">\'</span><span class="s1">'] = 1 if '</span><span class="se">\'</span><span class="s1">'who'</span><span class="se">\'</span><span class="s1">' in text and '</span><span class="se">\'</span><span class="s1">'chatting'</span><span class="se">\'</span><span class="s1">' in text and text.find('</span><span class="se">\'</span><span class="s1">'chatting'</span><span class="se">\'</span><span class="s1">') &gt; text.find('</span><span class="se">\'</span><span class="s1">'who'</span><span class="se">\'</span><span class="s1">') else 0",
-            "name": "agent-actions.open.greeting.ask_name__1",
-            "key": "agent_actions_open.greeting.ask_name_1",
+            "function": "node = '</span><span class="se">\'</span><span class="s1">'agent-actions.business.employee_type'</span><span class="se">\'</span><span class="s1">' if '</span><span class="se">\'</span><span class="s1">'who'</span><span class="se">\'</span><span class="s1">' in text and '</span><span class="se">\'</span><span class="s1">'chatting'</span><span class="se">\'</span><span class="s1">' in text and text.find('</span><span class="se">\'</span><span class="s1">'chatting'</span><span class="se">\'</span><span class="s1">') &gt; text.find('</span><span class="se">\'</span><span class="s1">'who'</span><span class="se">\'</span><span class="s1">') else None",
+            "name": "sample",
+            "key": "unique_key",
             "description": "Checks for words '</span><span class="se">\'</span><span class="s1">'who'</span><span class="se">\'</span><span class="s1">' and '</span><span class="se">\'</span><span class="s1">'chatting'</span><span class="se">\'</span><span class="s1">' and that they are in order",
-            "taxonomy": "agent-actions"
+            "taxonomy": "agent-actions",
+            "node_key": "agent-actions.business.employee_type"
         }],
         "run": true
     }'</span>
 </code></pre>
 <blockquote>
-<p>If the function is run, it should return a data object for each function:</p>
+<p>If the function is run, it should return a data object with the node positive count for exisitng labels:</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="s2">"agent-actions.open.greeting.ask_name__1"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="s2">"score_date"</span><span class="p">:</span><span class="w"> </span><span class="mi">1547477906793</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"true_negatives"</span><span class="p">:</span><span class="w"> </span><span class="mi">802</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"true_positives"</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"false_positives"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"false_negatives"</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w">
-        </span><span class="err">//</span><span class="w"> </span><span class="err">Best</span><span class="w"> </span><span class="err">scored</span><span class="w"> </span><span class="err">is</span><span class="w"> </span><span class="err">based</span><span class="w"> </span><span class="err">on</span><span class="w"> </span><span class="err">subtaxonomy</span><span class="w"> </span><span class="err">with</span><span class="w"> </span><span class="err">most</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="err">positives</span><span class="w">
-        </span><span class="s2">"best_scored_subtaxonomy"</span><span class="p">:</span><span class="w"> </span><span class="s2">"agent_actions_open.greeting.ask_name"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"total_samples"</span><span class="p">:</span><span class="w"> </span><span class="mi">802</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"nodes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"agent_actions_open.greeting.ask_name"</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"agent_actions_open.greeting"</span><span class="p">:</span><span class="w"> </span><span class="mi">35</span><span class="p">,</span><span class="w">
+        </span><span class="p">}</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>Upload a labeling function. The labeling function will be run with <code>exec</code>. The text of a particular data message will be available in the variable <code>text</code> and the output of whether or not the <code>text</code> fits a particular subtaxonomy should be assigned to the <code>subtaxonomy</code> object like <code>subtaxonomy[&#39;agent-actions.open&#39;] = 1</code>.</p>
+<p>Upload a labeling function. The labeling function will be run with <code>exec</code>. The text of a particular data message will be available in the variable <code>text</code> and the key output <code>text</code> should be assigned to the <code>node</code> variable like <code>node = &#39;agent-actions.open.greeting.ask_name&#39;</code>.</p>
 <h3 id='http-request-4'>HTTP Request</h3>
 <p><code>POST https://agile-binder-228011.appspot.com/post/functions</code></p>
 <h3 id='function-object'>Function Object</h3>
@@ -492,6 +492,10 @@ curl <span class="s2">"api_endpoint_here"</span>
 <tr>
 <td>key</td>
 <td>A unique key for this function. If a new function uses this key, it will replace the previous function</td>
+</tr>
+<tr>
+<td>nodes</td>
+<td>An array of node keys the labeling funtion will be assigned under. All nodes in array should be in the same hierarchy</td>
 </tr>
 </tbody></table>
 <h3 id='url-parameters-3'>URL Parameters</h3>
@@ -544,10 +548,6 @@ curl <span class="s2">"api_endpoint_here"</span>
 <tr>
 <td>labels</td>
 <td>An array of label objects to posted</td>
-</tr>
-<tr>
-<td>run</td>
-<td>A boolean flag to indicate whether snorkel should re-run labeling functions for subtaxonomies with new labels</td>
 </tr>
 </tbody></table>
 <h1 id='errors'>Errors</h1>
