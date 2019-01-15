@@ -143,7 +143,7 @@ update_date | Date last updated
 owner | Username of the user to upload this node object
 label | The label assigned to a node
 key | The key assigned to a node. This should be unique and currently a key is the concatonation of the labels down from the root.
-node_type | 0=root_node, 1=parent_node, 2=leaf_node, 3=labeling_function
+node_type | 0=root_node, 1=parent_node, 2=leaf_node
 description | A description of this node
 parent_key | The parent's key. While the node key contains the parent by concatonation, this will be needed should our key format be altered
 function | A string representing a function. Only present for labeling_function nodes
