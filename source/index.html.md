@@ -38,7 +38,7 @@ curl "api_endpoint_here"
 
 > The above command should return the JSON response in GET taxonomy tree for the posted YAML tree
 
-Uploads a YAML file into nodes to then be queried. See taxonomy YAMLs for samples.
+Uploads a YAML file into nodes to then be queried. See taxonomy YAMLs for samples. Yaml labels should not have periods.
 
 ### HTTP Request
 
@@ -158,39 +158,39 @@ data | An object representing metadata (optional)
 ```bash
 curl -X POST \
   http://localhost:8000/api/post/functions/ \
-  -H 'Authorization: Token b77ca868221a2e1d3b96c896ca4b8837088b9ea50c1b949214424b05e5f9fe08' \
-  -H 'Cache-Control: no-cache' \
+  -H 'Authorization: Token cdc57387d401b7f9a97d6dd200142764a6fd5ad249e27e8ae6d8152cd1f61250' \
   -H 'Content-Type: application/json' \
-  -H 'Postman-Token: ae253a65-3245-448d-afa5-68d125cfc0db' \
+  -H 'Postman-Token: ce7b16cd-0172-4860-8ebb-d04bb79c374e' \
+  -H 'cache-control: no-cache' \
   -d '{
         "functions": [{
-            "function": "subtaxonomy['\''agent-actions.open.greeting.ask_name'\''] = 1 if '\''who'\'' in text and '\''chatting'\'' in text and text.find('\''chatting'\'') > text.find('\''who'\'') else 0",
-            "name": "agent-actions.open.greeting.ask_name__1",
-            "key": "agent_actions_open.greeting.ask_name_1",
+            "function": "node = '\''agent-actions.business.employee_type'\'' if '\''who'\'' in text and '\''chatting'\'' in text and text.find('\''chatting'\'') > text.find('\''who'\'') else None",
+            "name": "sample",
+            "key": "unique_key",
             "description": "Checks for words '\''who'\'' and '\''chatting'\'' and that they are in order",
-            "taxonomy": "agent-actions"
+            "taxonomy": "agent-actions",
+            "node_key": "agent-actions.business.employee_type"
         }],
         "run": true
     }'
 ```
 
-> If the function is run, it should return a data object for each function:
+> If the function is run, it should return a data object with the node positive count for exisitng labels:
 
 ```json
 {
     "agent-actions.open.greeting.ask_name__1": {
         "score_date": 1547477906793,
-        "true_negatives": 802,
-        "true_positives": 30,
-        "false_positives": 3,
-        "false_negatives": 12,
-        // Best scored is based on subtaxonomy with most true positives
-        "best_scored_subtaxonomy": "agent_actions_open.greeting.ask_name",
+        "total_samples": 802,
+        "nodes": {
+            "agent_actions_open.greeting.ask_name": 30,
+            "agent_actions_open.greeting": 35,
+        }
     }
 }
 ```
 
-Upload a labeling function. The labeling function will be run with `exec`. The text of a particular data message will be available in the variable `text` and the output of whether or not the `text` fits a particular subtaxonomy should be assigned to the `subtaxonomy` object like `subtaxonomy['agent-actions.open'] = 1`.
+Upload a labeling function. The labeling function will be run with `exec`. The text of a particular data message will be available in the variable `text` and the key output `text` should be assigned to the `node` variable like `node = 'agent-actions.open.greeting.ask_name'`.
 
 ### HTTP Request
 
@@ -205,6 +205,7 @@ taxonomy | The key of the taxonomy, this function is to be grouped under
 name | A name to identify the labeling function
 description | A description for the labeling function
 key | A unique key for this function. If a new function uses this key, it will replace the previous function
+nodes | An array of node keys the labeling funtion will be assigned under. All nodes in array should be in the same hierarchy
 
 ### URL Parameters
 
@@ -233,5 +234,4 @@ label | The correct subtaxonomy label for this text (optional)
 
 Parameter | Description
 --------- | -----------
-labels | An array of label objects to posted 
-run | A boolean flag to indicate whether snorkel should re-run labeling functions for subtaxonomies with new labels
+labels | An array of label objects to posted
