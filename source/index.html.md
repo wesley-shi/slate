@@ -9,25 +9,40 @@ search: true
 
 # Introduction
 
-Welcome to the Cresta Taxonomy API! This is a work in progress powered by [Slate](https://github.com/lord/slate).
+Welcome to the Cresta Taxonomy API!
 
-The goal of these APIs are to support write labeling functions applied to text input and returning a sub-taxonomy output. 
-
-Note: I have the id/keys in the examples below as strings ex. "att_agent-actions.open" but they can be hashed to an ID. I think XXX (taxonomy) XXXXX (parent key hash) XXXXX (own name/key hash) or something could work if we want the digits to be non-random.
+The goal of these APIs are to support write labeling functions applied to text input and returning a sub-taxonomy output.
 
 # Authentication
 
-Perhaps we can probably just use an API key for now? Something like setting up session tokens based user auth could be an option later.
+You will need to retrieve an API token and add the token as a header in the format
 
 > Use API key in an authorization header
 
 ```shell
+
+# You can make a post request to the login endpoint to get an API token
+curl -X POST \
+  https://agile-binder-228011.appspot.com/api/auth/login/ \
+  -H 'Content-Type: application/json' \
+  -H 'cache-control: no-cache' \
+  -d '{
+    "username": "sample_username",
+    "password": "sample_password"
+  }'
+
+# The JSON response of the above curl request
+{
+    "user": {
+        "id": 3,
+        "username": "sample_username"
+    },
+    "token": "e5323551ff1d2da6b666e8745b8c88e14939012981b8b035f5961f7c2213f320"
+}
+
 # With shell, you can just pass the correct header with each request
 curl "api_endpoint_here"
   -H "Authorization: API_KEY"
-```
-
-```javascript
 ```
 
 > Make sure to replace `API_KEY` with your API key.
@@ -81,46 +96,43 @@ In the future, this API can support filters and other options.
 ```json
 // Response
 {
+    "create_date": <Date created in ms (UTC)>,
+    "update_date": <Date created in ms (UTC)>,
     "label": "",
     "key": "att_agent-actions", // An id/key uniquely identifying each node
     "description": "AT&T Agent Actions",
-    "example": [],
     "type": 0, // 0 = root node
+    "parent_key": "",
     "children": [{
+        "create_date": <Date created in ms (UTC)>,
+        "update_date": <Date created in ms (UTC)>,
         "label": "open",
         "key": "att_agent-actions.open",
         "description": "agent enters chat.",
         "example": ["Agent yc4055 enters chat as Lauren"],
-        "type": 2,
-        "parent_key": "att_agent-actions"
-        "children": [{
-            "parent_key": "att_agent-actions.open",
-            "key": "att_agent-actions.open.labeling_function_name_assigned_by_user",
-            "description": "Labeling function description assigned by user",
-            "function": "function as a string in readable format, can be editable",
-            "type": "labeling_function",
-            "data": { // An object representing metadata or test results from testing
-            "last_run_date": <timestamp in ms>,
-            "date_created": <timestamp in ms>,
-            "subtaxonomy_run_results": { // An object representing text and subtaxonomy results },
-            "author": <user id>
-            "metadata": { // An object with additional relevant data }
-        }
-    }],
-    },
-    {
+        "type": 2, // 2 = leaf node
+        "parent_key": "att_agent-actions",
+        "functions": [{
+            "function": "function as a string",
+            "name": "function_name",
+            "key": "a key assigned by the user",
+            "description": "a description by the user",
+            "owner": "the username of the owner of the function"
+        }],
+        "owner": "username of owner"
+    }, {
+        "create_date": <Date created in ms (UTC)>,
+        "update_date": <Date created in ms (UTC)>,
         "label": "greeting",
         "key": "att_agent-actions.greeting",
         "description": "agent greets visitor.",
         "example": [],
-        "type": 1,
-        "parent_key": "att_agent-actions"
-        "children": [{
+        "type": 1, // 1 = parent node
+        "parent_key": "att_agent-actions",
+        "children": [
             ...
-        }],
-        }
-    ],
-    "parent_key": ""
+        ],
+    }],
 }
 ```
 
