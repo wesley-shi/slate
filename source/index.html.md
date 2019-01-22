@@ -146,6 +146,16 @@ Parameter | Description
 --------- | -----------
 key | The key of the taxonomy node to retrieve along with its descendants
 
+### Function Object Response JSON
+
+Parameter | Description
+--------- | -----------
+function | Python function as a string
+name | Name of the function assigned by the owner
+key | Key of the function assigned by the owner. This should be auto-generated in the future
+description | Description of the function
+owner | Username of the owner
+
 ### Node Object JSON
 
 Parameter | Description
@@ -157,8 +167,8 @@ label | The label assigned to a node
 key | The key assigned to a node. This should be unique and currently a key is the concatonation of the labels down from the root.
 node_type | 0=root_node, 1=parent_node, 2=leaf_node
 description | A description of this node
-parent_key | The parent's key. While the node key contains the parent by concatonation, this will be needed should our key format be altered
-function | A string representing a function. Only present for labeling_function nodes
+parent_key | The parent's key. While the node key contains the parent by concatonation, it may be useful should we use a randomized string/int instead
+functions | An array of response functions
 children | An array of nodes belonging to this parent node (optional)
 example | An array of strings that to help a user better understand the description or label (optional)
 data | An object representing metadata (optional)
