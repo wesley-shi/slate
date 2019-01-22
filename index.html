@@ -250,21 +250,39 @@
       <div class="dark-box"></div>
       <div class="content">
         <h1 id='introduction'>Introduction</h1>
-<p>Welcome to the Cresta Taxonomy API! This is a work in progress powered by <a href="https://github.com/lord/slate">Slate</a>.</p>
+<p>Welcome to the Cresta Taxonomy API!</p>
 
-<p>The goal of these APIs are to support write labeling functions applied to text input and returning a sub-taxonomy output. </p>
-
-<p>Note: I have the id/keys in the examples below as strings ex. &quot;att_agent-actions.open&quot; but they can be hashed to an ID. I think XXX (taxonomy) XXXXX (parent key hash) XXXXX (own name/key hash) or something could work if we want the digits to be non-random.</p>
+<p>The goal of these APIs are to support write labeling functions applied to text input and returning a sub-taxonomy output.</p>
 <h1 id='authentication'>Authentication</h1>
-<p>Perhaps we can probably just use an API key for now? Something like setting up session tokens based user auth could be an option later.</p>
+<p>You will need to retrieve an API token and add the token as a header in the format</p>
 
 <blockquote>
 <p>Use API key in an authorization header</p>
 </blockquote>
-<pre class="highlight shell tab-shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
+<pre class="highlight shell tab-shell"><code>
+<span class="c"># You can make a post request to the login endpoint to get an API token</span>
+curl -X POST <span class="se">\</span>
+  https://agile-binder-228011.appspot.com/api/auth/login/ <span class="se">\</span>
+  -H <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+  -H <span class="s1">'cache-control: no-cache'</span> <span class="se">\</span>
+  -d <span class="s1">'{
+    "username": "sample_username",
+    "password": "sample_password"
+  }'</span>
+
+<span class="c"># The JSON response of the above curl request</span>
+<span class="o">{</span>
+    <span class="s2">"user"</span>: <span class="o">{</span>
+        <span class="s2">"id"</span>: 3,
+        <span class="s2">"username"</span>: <span class="s2">"sample_username"</span>
+    <span class="o">}</span>,
+    <span class="s2">"token"</span>: <span class="s2">"e5323551ff1d2da6b666e8745b8c88e14939012981b8b035f5961f7c2213f320"</span>
+<span class="o">}</span>
+
+<span class="c"># With shell, you can just pass the correct header with each request</span>
 curl <span class="s2">"api_endpoint_here"</span>
   -H <span class="s2">"Authorization: API_KEY"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code></code></pre>
+</code></pre>
 <blockquote>
 <p>Make sure to replace <code>API_KEY</code> with your API key.</p>
 </blockquote>
@@ -316,46 +334,43 @@ curl <span class="s2">"api_endpoint_here"</span>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="err">//</span><span class="w"> </span><span class="err">Response</span><span class="w">
 </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"create_date"</span><span class="p">:</span><span class="w"> </span><span class="err">&lt;Date</span><span class="w"> </span><span class="err">created</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">ms</span><span class="w"> </span><span class="err">(UTC)&gt;</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"update_date"</span><span class="p">:</span><span class="w"> </span><span class="err">&lt;Date</span><span class="w"> </span><span class="err">created</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">ms</span><span class="w"> </span><span class="err">(UTC)&gt;</span><span class="p">,</span><span class="w">
     </span><span class="s2">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
     </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"att_agent-actions"</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">An</span><span class="w"> </span><span class="err">id/key</span><span class="w"> </span><span class="err">uniquely</span><span class="w"> </span><span class="err">identifying</span><span class="w"> </span><span class="err">each</span><span class="w"> </span><span class="err">node</span><span class="w">
     </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AT&amp;T Agent Actions"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"example"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
     </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="err">root</span><span class="w"> </span><span class="err">node</span><span class="w">
+    </span><span class="s2">"parent_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
     </span><span class="s2">"children"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+        </span><span class="s2">"create_date"</span><span class="p">:</span><span class="w"> </span><span class="err">&lt;Date</span><span class="w"> </span><span class="err">created</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">ms</span><span class="w"> </span><span class="err">(UTC)&gt;</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"update_date"</span><span class="p">:</span><span class="w"> </span><span class="err">&lt;Date</span><span class="w"> </span><span class="err">created</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">ms</span><span class="w"> </span><span class="err">(UTC)&gt;</span><span class="p">,</span><span class="w">
         </span><span class="s2">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"open"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"att_agent-actions.open"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"agent enters chat."</span><span class="p">,</span><span class="w">
         </span><span class="s2">"example"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"Agent yc4055 enters chat as Lauren"</span><span class="p">],</span><span class="w">
-        </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"parent_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"att_agent-actions"</span><span class="w">
-        </span><span class="s2">"children"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
-            </span><span class="s2">"parent_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"att_agent-actions.open"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"att_agent-actions.open.labeling_function_name_assigned_by_user"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Labeling function description assigned by user"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"function"</span><span class="p">:</span><span class="w"> </span><span class="s2">"function as a string in readable format, can be editable"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"labeling_function"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">An</span><span class="w"> </span><span class="err">object</span><span class="w"> </span><span class="err">representing</span><span class="w"> </span><span class="err">metadata</span><span class="w"> </span><span class="err">or</span><span class="w"> </span><span class="err">test</span><span class="w"> </span><span class="err">results</span><span class="w"> </span><span class="err">from</span><span class="w"> </span><span class="err">testing</span><span class="w">
-            </span><span class="s2">"last_run_date"</span><span class="p">:</span><span class="w"> </span><span class="err">&lt;timestamp</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">ms&gt;</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"date_created"</span><span class="p">:</span><span class="w"> </span><span class="err">&lt;timestamp</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">ms&gt;</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"subtaxonomy_run_results"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">An</span><span class="w"> </span><span class="err">object</span><span class="w"> </span><span class="err">representing</span><span class="w"> </span><span class="err">text</span><span class="w"> </span><span class="err">and</span><span class="w"> </span><span class="err">subtaxonomy</span><span class="w"> </span><span class="err">results</span><span class="w"> </span><span class="p">},</span><span class="w">
-            </span><span class="s2">"author"</span><span class="p">:</span><span class="w"> </span><span class="err">&lt;user</span><span class="w"> </span><span class="err">id&gt;</span><span class="w">
-            </span><span class="s2">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">An</span><span class="w"> </span><span class="err">object</span><span class="w"> </span><span class="err">with</span><span class="w"> </span><span class="err">additional</span><span class="w"> </span><span class="err">relevant</span><span class="w"> </span><span class="err">data</span><span class="w"> </span><span class="p">}</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-    </span><span class="p">}],</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="err">leaf</span><span class="w"> </span><span class="err">node</span><span class="w">
+        </span><span class="s2">"parent_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"att_agent-actions"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"functions"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+            </span><span class="s2">"function"</span><span class="p">:</span><span class="w"> </span><span class="s2">"function as a string"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"function_name"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a key assigned by the user"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a description by the user"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"owner"</span><span class="p">:</span><span class="w"> </span><span class="s2">"the username of the owner of the function"</span><span class="w">
+        </span><span class="p">}],</span><span class="w">
+        </span><span class="s2">"owner"</span><span class="p">:</span><span class="w"> </span><span class="s2">"username of owner"</span><span class="w">
+    </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"create_date"</span><span class="p">:</span><span class="w"> </span><span class="err">&lt;Date</span><span class="w"> </span><span class="err">created</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">ms</span><span class="w"> </span><span class="err">(UTC)&gt;</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"update_date"</span><span class="p">:</span><span class="w"> </span><span class="err">&lt;Date</span><span class="w"> </span><span class="err">created</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">ms</span><span class="w"> </span><span class="err">(UTC)&gt;</span><span class="p">,</span><span class="w">
         </span><span class="s2">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"greeting"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"att_agent-actions.greeting"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"agent greets visitor."</span><span class="p">,</span><span class="w">
         </span><span class="s2">"example"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-        </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"parent_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"att_agent-actions"</span><span class="w">
-        </span><span class="s2">"children"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+        </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="err">parent</span><span class="w"> </span><span class="err">node</span><span class="w">
+        </span><span class="s2">"parent_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"att_agent-actions"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"children"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
             </span><span class="err">...</span><span class="w">
-        </span><span class="p">}],</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-    </span><span class="p">],</span><span class="w">
-    </span><span class="s2">"parent_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+        </span><span class="p">],</span><span class="w">
+    </span><span class="p">}],</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><h3 id='http-request-3'>HTTP Request</h3>
 <p><code>GET https://agile-binder-228011.appspot.com/get/taxonomy/key/&lt;key&gt;</code></p>
@@ -400,7 +415,7 @@ curl <span class="s2">"api_endpoint_here"</span>
 </tr>
 <tr>
 <td>node_type</td>
-<td>0=root_node, 1=parent_node, 2=leaf_node, 3=labeling_function</td>
+<td>0=root_node, 1=parent_node, 2=leaf_node</td>
 </tr>
 <tr>
 <td>description</td>
