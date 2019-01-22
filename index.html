@@ -386,6 +386,34 @@ curl <span class="s2">"api_endpoint_here"</span>
 <td>The key of the taxonomy node to retrieve along with its descendants</td>
 </tr>
 </tbody></table>
+<h3 id='function-object-response-json'>Function Object Response JSON</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>function</td>
+<td>Python function as a string</td>
+</tr>
+<tr>
+<td>name</td>
+<td>Name of the function assigned by the owner</td>
+</tr>
+<tr>
+<td>key</td>
+<td>Key of the function assigned by the owner. This should be auto-generated in the future</td>
+</tr>
+<tr>
+<td>description</td>
+<td>Description of the function</td>
+</tr>
+<tr>
+<td>owner</td>
+<td>Username of the owner</td>
+</tr>
+</tbody></table>
 <h3 id='node-object-json'>Node Object JSON</h3>
 <table><thead>
 <tr>
@@ -423,11 +451,11 @@ curl <span class="s2">"api_endpoint_here"</span>
 </tr>
 <tr>
 <td>parent_key</td>
-<td>The parent&#39;s key. While the node key contains the parent by concatonation, this will be needed should our key format be altered</td>
+<td>The parent&#39;s key. While the node key contains the parent by concatonation, it may be useful should we use a randomized string/int instead</td>
 </tr>
 <tr>
-<td>function</td>
-<td>A string representing a function. Only present for labeling_function nodes</td>
+<td>functions</td>
+<td>An array of response functions</td>
 </tr>
 <tr>
 <td>children</td>
