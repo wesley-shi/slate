@@ -191,7 +191,7 @@ curl -X POST \
             "key": "unique_key",
             "description": "Checks for words '\''who'\'' and '\''chatting'\'' and that they are in order",
             "taxonomy": "agent-actions",
-            "node_key": "agent-actions.business.employee_type"
+            "node_key": ["agent-actions.business.employee_type"]
         }],
         "run": true
     }'
@@ -227,7 +227,7 @@ taxonomy | The key of the taxonomy, this function is to be grouped under
 name | A name to identify the labeling function
 description | A description for the labeling function
 key | A unique key for this function. If a new function uses this key, it will replace the previous function
-node | The lowest level node in a hierarchy this labeling function will resolve
+node_keys | An array of the lowest level nodes in a hierarchy this labeling function will resolve
 
 ### URL Parameters
 
