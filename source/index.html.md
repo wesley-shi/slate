@@ -47,7 +47,7 @@ curl "api_endpoint_here"
 
 > Make sure to replace `API_KEY` with your API key.
 
-# Taxonomy API
+# Nodes API
 
 ## POST yaml
 
@@ -57,7 +57,7 @@ Uploads a YAML file into nodes to then be queried. See taxonomy YAMLs for sample
 
 ### HTTP Request
 
-`GET https://agile-binder-228011.appspot.com/post/yaml`
+`GET https://agile-binder-228011.appspot.com/api/post/yaml`
 
 ### URL Parameters
 
@@ -66,9 +66,9 @@ Parameter | Description
 yaml | The YAML file to be posted
 name | The name of the tree, if an existing tree already exists, the nodes will be overwritten and labeling function will be reassigned
 
-## GET taxonomy list
+## GET node taxonomy list
 
-Gets the list of taxonomys available
+Gets the list of taxonomys available for nodes (subtaxonomies) posted
 
 > The above command returns JSON structured like this:
 
@@ -83,9 +83,9 @@ Gets the list of taxonomys available
 
 ### HTTP Request
 
-`GET https://agile-binder-228011.appspot.com/get/taxonomy/list`
+`GET https://agile-binder-228011.appspot.com/api/get/taxonomy/nodes/list`
 
-## GET taxonomy tree
+## GET node tree
 
 Retrieves a taxonomy tree based on a node key (ex. `att_agent-actions` or `att_agent-actions.open`)
 
@@ -138,7 +138,7 @@ In the future, this API can support filters and other options.
 
 ### HTTP Request
 
-`GET https://agile-binder-228011.appspot.com/get/taxonomy/key/<key>`
+`GET https://agile-binder-228011.appspot.com/api/get/taxonomy/key/<key>`
 
 ### URL Parameters
 
@@ -172,6 +172,25 @@ functions | An array of response functions
 children | An array of nodes belonging to this parent node (optional)
 example | An array of strings that to help a user better understand the description or label (optional)
 data | An object representing metadata (optional)
+
+## GET functions taxonomy list
+
+Gets the list of taxonomys available for functions posted
+
+> The above command returns JSON structured like this:
+
+```json
+[{
+    "key": "att_agent-actions",
+},
+{
+    "key": "att_visitor-actions",
+}]
+```
+
+### HTTP Request
+
+`GET https://agile-binder-228011.appspot.com/api/get/taxonomy/functions/list`
 
 ## POST labeling function
 
@@ -216,7 +235,7 @@ Upload a labeling function. The labeling function will be run with `exec`. The t
 
 ### HTTP Request
 
-`POST https://agile-binder-228011.appspot.com/post/functions`
+`POST https://agile-binder-228011.appspot.com/api/post/functions`
 
 ### Function Object
 
@@ -236,13 +255,13 @@ Parameter | Description
 functions | An array of function objects to be automatically run and labeled
 run | A boolean flag to indicate whether snorkel should re-run data for taxonomy with these new functions
 
-## POST labels
+## GET functions
 
-Upload data for a taxonomy. Should the text be labeled, add the property `label` to each label object.
+Get functions under a taxonomy
 
 ### HTTP Request
 
-`POST https://agile-binder-228011.appspot.com/post/labels`
+`GET https://agile-binder-228011.appspot.com/api/get/labels`
 
 ### Label Object JSON
 
@@ -257,3 +276,25 @@ label | The correct subtaxonomy label for this text (optional)
 Parameter | Description
 --------- | -----------
 labels | An array of label objects to posted
+
+## POST data
+
+Upload data for a taxonomy. Should the text be labeled, add the property `label` to each label object.
+
+### HTTP Request
+
+`POST https://agile-binder-228011.appspot.com/api/post/labels`
+
+### Data Object JSON
+
+Parameter | Description
+--------- | -----------
+text | The message text
+taxonomy | The taxonomy for this label
+label | The correct subtaxonomy label for this text (optional)
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+data | An array of label objects to posted
