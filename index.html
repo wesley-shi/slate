@@ -222,22 +222,28 @@
             <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
           </li>
           <li>
-            <a href="#taxonomy-api" class="toc-h1 toc-link" data-title="Taxonomy API">Taxonomy API</a>
+            <a href="#nodes-api" class="toc-h1 toc-link" data-title="Nodes API">Nodes API</a>
               <ul class="toc-list-h2">
                   <li>
                     <a href="#post-yaml" class="toc-h2 toc-link" data-title="POST yaml">POST yaml</a>
                   </li>
                   <li>
-                    <a href="#get-taxonomy-list" class="toc-h2 toc-link" data-title="GET taxonomy list">GET taxonomy list</a>
+                    <a href="#get-node-taxonomy-list" class="toc-h2 toc-link" data-title="GET node taxonomy list">GET node taxonomy list</a>
                   </li>
                   <li>
-                    <a href="#get-taxonomy-tree" class="toc-h2 toc-link" data-title="GET taxonomy tree">GET taxonomy tree</a>
+                    <a href="#get-node-tree" class="toc-h2 toc-link" data-title="GET node tree">GET node tree</a>
+                  </li>
+                  <li>
+                    <a href="#get-functions-taxonomy-list" class="toc-h2 toc-link" data-title="GET functions taxonomy list">GET functions taxonomy list</a>
                   </li>
                   <li>
                     <a href="#post-labeling-function" class="toc-h2 toc-link" data-title="POST labeling function">POST labeling function</a>
                   </li>
                   <li>
-                    <a href="#post-labels" class="toc-h2 toc-link" data-title="POST labels">POST labels</a>
+                    <a href="#get-functions" class="toc-h2 toc-link" data-title="GET functions">GET functions</a>
+                  </li>
+                  <li>
+                    <a href="#post-data" class="toc-h2 toc-link" data-title="POST data">POST data</a>
                   </li>
               </ul>
           </li>
@@ -286,14 +292,14 @@ curl <span class="s2">"api_endpoint_here"</span>
 <blockquote>
 <p>Make sure to replace <code>API_KEY</code> with your API key.</p>
 </blockquote>
-<h1 id='taxonomy-api'>Taxonomy API</h1><h2 id='post-yaml'>POST yaml</h2>
+<h1 id='nodes-api'>Nodes API</h1><h2 id='post-yaml'>POST yaml</h2>
 <blockquote>
 <p>The above command should return the JSON response in GET taxonomy tree for the posted YAML tree</p>
 </blockquote>
 
 <p>Uploads a YAML file into nodes to then be queried. See taxonomy YAMLs for samples. Yaml labels should not have periods.</p>
 <h3 id='http-request'>HTTP Request</h3>
-<p><code>GET https://agile-binder-228011.appspot.com/post/yaml</code></p>
+<p><code>GET https://agile-binder-228011.appspot.com/api/post/yaml</code></p>
 <h3 id='url-parameters'>URL Parameters</h3>
 <table><thead>
 <tr>
@@ -310,8 +316,8 @@ curl <span class="s2">"api_endpoint_here"</span>
 <td>The name of the tree, if an existing tree already exists, the nodes will be overwritten and labeling function will be reassigned</td>
 </tr>
 </tbody></table>
-<h2 id='get-taxonomy-list'>GET taxonomy list</h2>
-<p>Gets the list of taxonomys available</p>
+<h2 id='get-node-taxonomy-list'>GET node taxonomy list</h2>
+<p>Gets the list of taxonomys available for nodes (subtaxonomies) posted</p>
 
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
@@ -323,8 +329,8 @@ curl <span class="s2">"api_endpoint_here"</span>
     </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"att_visitor-actions"</span><span class="p">,</span><span class="w">
 </span><span class="p">}]</span><span class="w">
 </span></code></pre><h3 id='http-request-2'>HTTP Request</h3>
-<p><code>GET https://agile-binder-228011.appspot.com/get/taxonomy/list</code></p>
-<h2 id='get-taxonomy-tree'>GET taxonomy tree</h2>
+<p><code>GET https://agile-binder-228011.appspot.com/api/get/taxonomy/nodes/list</code></p>
+<h2 id='get-node-tree'>GET node tree</h2>
 <p>Retrieves a taxonomy tree based on a node key (ex. <code>att_agent-actions</code> or <code>att_agent-actions.open</code>)</p>
 
 <p>In the future, this API can support filters and other options.</p>
@@ -373,7 +379,7 @@ curl <span class="s2">"api_endpoint_here"</span>
     </span><span class="p">}],</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><h3 id='http-request-3'>HTTP Request</h3>
-<p><code>GET https://agile-binder-228011.appspot.com/get/taxonomy/key/&lt;key&gt;</code></p>
+<p><code>GET https://agile-binder-228011.appspot.com/api/get/taxonomy/key/&lt;key&gt;</code></p>
 <h3 id='url-parameters-2'>URL Parameters</h3>
 <table><thead>
 <tr>
@@ -470,6 +476,20 @@ curl <span class="s2">"api_endpoint_here"</span>
 <td>An object representing metadata (optional)</td>
 </tr>
 </tbody></table>
+<h2 id='get-functions-taxonomy-list'>GET functions taxonomy list</h2>
+<p>Gets the list of taxonomys available for functions posted</p>
+
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[{</span><span class="w">
+    </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"att_agent-actions"</span><span class="p">,</span><span class="w">
+</span><span class="p">},</span><span class="w">
+</span><span class="p">{</span><span class="w">
+    </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"att_visitor-actions"</span><span class="p">,</span><span class="w">
+</span><span class="p">}]</span><span class="w">
+</span></code></pre><h3 id='http-request-4'>HTTP Request</h3>
+<p><code>GET https://agile-binder-228011.appspot.com/api/get/taxonomy/functions/list</code></p>
 <h2 id='post-labeling-function'>POST labeling function</h2>
 <blockquote>
 <p>The below is an example of a function post:</p>
@@ -507,8 +527,8 @@ curl <span class="s2">"api_endpoint_here"</span>
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>Upload a labeling function. The labeling function will be run with <code>exec</code>. The text of a particular data message will be available in the variable <code>text</code> and the key output <code>text</code> should be assigned to the <code>node</code> variable like <code>node = &#39;agent-actions.open.greeting.ask_name&#39;</code>.</p>
-<h3 id='http-request-4'>HTTP Request</h3>
-<p><code>POST https://agile-binder-228011.appspot.com/post/functions</code></p>
+<h3 id='http-request-5'>HTTP Request</h3>
+<p><code>POST https://agile-binder-228011.appspot.com/api/post/functions</code></p>
 <h3 id='function-object'>Function Object</h3>
 <table><thead>
 <tr>
@@ -557,10 +577,10 @@ curl <span class="s2">"api_endpoint_here"</span>
 <td>A boolean flag to indicate whether snorkel should re-run data for taxonomy with these new functions</td>
 </tr>
 </tbody></table>
-<h2 id='post-labels'>POST labels</h2>
-<p>Upload data for a taxonomy. Should the text be labeled, add the property <code>label</code> to each label object.</p>
-<h3 id='http-request-5'>HTTP Request</h3>
-<p><code>POST https://agile-binder-228011.appspot.com/post/labels</code></p>
+<h2 id='get-functions'>GET functions</h2>
+<p>Get functions under a taxonomy</p>
+<h3 id='http-request-6'>HTTP Request</h3>
+<p><code>GET https://agile-binder-228011.appspot.com/api/get/labels</code></p>
 <h3 id='label-object-json'>Label Object JSON</h3>
 <table><thead>
 <tr>
@@ -590,6 +610,42 @@ curl <span class="s2">"api_endpoint_here"</span>
 </thead><tbody>
 <tr>
 <td>labels</td>
+<td>An array of label objects to posted</td>
+</tr>
+</tbody></table>
+<h2 id='post-data'>POST data</h2>
+<p>Upload data for a taxonomy. Should the text be labeled, add the property <code>label</code> to each label object.</p>
+<h3 id='http-request-7'>HTTP Request</h3>
+<p><code>POST https://agile-binder-228011.appspot.com/api/post/labels</code></p>
+<h3 id='data-object-json'>Data Object JSON</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>text</td>
+<td>The message text</td>
+</tr>
+<tr>
+<td>taxonomy</td>
+<td>The taxonomy for this label</td>
+</tr>
+<tr>
+<td>label</td>
+<td>The correct subtaxonomy label for this text (optional)</td>
+</tr>
+</tbody></table>
+<h3 id='url-parameters-5'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>data</td>
 <td>An array of label objects to posted</td>
 </tr>
 </tbody></table>
