@@ -173,6 +173,8 @@ children | An array of nodes belonging to this parent node (optional)
 example | An array of strings that to help a user better understand the description or label (optional)
 data | An object representing metadata (optional)
 
+# Functions API
+
 ## GET functions taxonomy list
 
 Gets the list of taxonomys available for functions posted
